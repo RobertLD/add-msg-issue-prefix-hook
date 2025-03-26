@@ -23,13 +23,13 @@ def modify_commit_message(content: str, issue_number: str, pattern: re.Pattern) 
 
     """
     if match := re.search(pattern, content):
-        return " ".join(
-            [
-                match.group().strip(),
-                issue_number.strip(),
-                content[match.end():].strip(),
-            ]
-        )
+        strings = [
+            issue_number.strip(),
+            content[match.end():].strip(),
+        ]
+        if first_part := match.group().strip():
+            strings[:0] = [first_part]
+        return " ".join(strings)
     return " ".join([issue_number.strip(), content])
 
 
